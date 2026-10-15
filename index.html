@@ -515,7 +515,7 @@
       }
     });
 
-    // Atualiza preview em tempo real
+    // Atualiza preview em tempo real e define o título dinâmico (Placa + Primeiro Nome)
     function atualizarPreview() {
       const mapeamento = {
         'in-numero': 'out-numero',
@@ -556,6 +556,17 @@
       }
 
       document.getElementById('out-assinatura-motorista').innerText = document.getElementById('in-motorista').value;
+
+      // Atualiza o título da página dinamicamente para compartilhamento/impressão
+      const placaCavalo = document.getElementById('in-v1-placa').value.trim();
+      const nomeCompletoMotorista = document.getElementById('in-motorista').value.trim();
+      const primeiroNome = nomeCompletoMotorista ? nomeCompletoMotorista.split(' ')[0] : '';
+      
+      if (placaCavalo && primeiroNome) {
+        document.title = placaCavalo + ' - ' + primeiroNome;
+      } else {
+        document.title = "Agrogrãos Corretora - Ordem de Carregamento";
+      }
     }
 
     // Ocultar campo individual com X
