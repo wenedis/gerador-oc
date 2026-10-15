@@ -1,14 +1,14 @@
 {
   "name": "Agrogrãos Corretora",
   "short_name": "Agrogrãos",
-  "start_url": "/",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0f766e",
   "icons": [
     {
       "src": "imagem.jpg",
-      "sizes": "192x192 512x512",
+      "sizes": "512x512",
       "type": "image/jpeg"
     }
   ]
