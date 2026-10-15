@@ -4,409 +4,165 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agrogrãos Corretora - Gerador de Ordem de Carregamento</title>
+  
+  <!-- Configurações para transformar em App (PWA) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Agrogrãos">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
     @media print {
-      body { visibility: hidden; }
+      body * { visibility: hidden; }
       #printable-area, #printable-area * { visibility: visible; }
-      #printable-area { position: absolute; left: 0; top: 0; width: 100%; }
+      #printable-area { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 15px; box-shadow: none !important; border: none !important; }
       .no-print { display: none !important; }
     }
+    .a4-preview { width: 100%; max-width: 210mm; min-height: 297mm; background: white; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.15); padding: 10mm 10mm; font-family: 'Arial', sans-serif; overflow-x: auto; }
+    @media (min-width: 768px) {
+      .a4-preview { padding: 15mm 15mm; }
+    }
+    input, textarea, select { transition: all 0.2s ease; }
+    input:focus, textarea:focus, select:focus { outline: 2px solid #15803d; border-color: transparent; }
+    .campo-oculto { display: none !important; }
+    .veiculo-table th, .veiculo-table td { padding: 3px 4px; font-size: 11px; word-break: break-word; }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen pb-12 font-sans text-gray-800">
+<body class="bg-gray-100 min-h-screen text-gray-800 flex flex-col">
 
-  <!-- CABEÇALHO DO SISTEMA -->
-  <header class="bg-emerald-800 text-white shadow-md mb-6 no-print">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
-      <div class="flex items-center space-x-3">
-        <i class="fa-solid fa-file-contract text-2xl text-emerald-300"></i>
+  <!-- Cabecalho do Sistema -->
+  <header class="bg-gradient-to-r from-green-900 via-green-800 to-green-950 text-white shadow-lg no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div class="flex items-center space-x-3 text-center sm:text-left">
+        <div class="bg-amber-400 p-2 sm:p-2.5 rounded-xl text-green-900 font-bold text-xl sm:text-2xl flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0">
+          <i class="fa-solid fa-wheat-awn"></i>
+        </div>
         <div>
-          <h1 class="text-xl font-bold tracking-wide">AGROGRÃOS CORRETORA</h1>
-          <p class="text-xs text-emerald-200">Gerador de Ordem de Carregamento</p>
+          <h1 class="font-bold text-lg sm:text-2xl tracking-wide text-amber-300">AGROGRÃOS CORRETORA</h1>
+          <p class="text-xs sm:text-sm text-green-200">Gerador &amp; Leitor de Ordens de Carregamento</p>
         </div>
       </div>
-      <div class="flex gap-2">
-        <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 shadow transition">
-          <i class="fa-solid fa-print"></i> Imprimir / PDF
+      <div class="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center">
+        <button onclick="document.getElementById('pdf-upload').click()" class="bg-amber-500 hover:bg-amber-400 text-green-950 font-bold px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow transition flex items-center gap-2 text-xs sm:text-base flex-1 sm:flex-none justify-center">
+          <i class="fa-solid fa-file-pdf"></i> Ler PDF
+        </button>
+        <input type="file" id="pdf-upload" accept="application/pdf" class="hidden" onchange="processarPDF(this)">
+        <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-white font-bold px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl shadow transition flex items-center gap-2 text-xs sm:text-base flex-1 sm:flex-none justify-center">
+          <i class="fa-solid fa-print"></i> Gerar PDF
         </button>
       </div>
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-6">
+  <!-- Conteudo Principal -->
+  <main class="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-6 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
 
-    <!-- COLUNA DE FORMULÁRIO (ESQUERDA) -->
-    <div class="lg:col-span-6 space-y-6 no-print">
-
-      <!-- LEITOR AUTOMÁTICO DE PDF/TEXTO -->
-      <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-        <h2 class="text-md font-bold text-gray-700 mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-wand-magic-sparkles text-emerald-600"></i> Preenchimento Automático
+    <!-- Lado Esquerdo: Formulario de Edicao -->
+    <div class="lg:col-span-6 space-y-4 sm:space-y-5 no-print bg-white p-4 sm:p-6 rounded-2xl shadow-md border border-gray-200 h-fit">
+      <div class="border-b pb-3 flex justify-between items-center">
+        <h2 class="text-lg sm:text-xl font-bold text-green-900 flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square"></i> Editar Informações
         </h2>
-        <textarea id="input-colar" rows="3" placeholder="Cole aqui o texto do pedido ou confirmação..." class="w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none mb-2"></textarea>
-        <button onclick="processarTextoColado()" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition">
-          <i class="fa-solid fa-bolt"></i> Extrair e Preencher Dados
-        </button>
+        <span class="text-xs sm:text-sm text-gray-500 font-medium">Altere o que precisar</span>
       </div>
 
-      <!-- FORMULÁRIO PRINCIPAL -->
-      <form id="oc-form" class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 space-y-4" oninput="atualizarPreview()">
-
-        <!-- CABEÇALHO DA OC -->
-        <div class="border-b pb-4">
-          <h3 class="text-sm font-bold text-emerald-800 uppercase tracking-wider mb-3">Informações Gerais</h3>
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-medium text-gray-600">Nº Ordem</label>
-              <input type="text" id="in-numero" value="10344" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-gray-600">Data de Emissão</label>
-              <input type="text" id="in-data" value="APARECIDA DO RIO NEGRO/TO" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-            </div>
-          </div>
-        </div>
-
-        <!-- DADOS DO CLIENTE -->
-        <div class="border-b pb-4">
-          <h3 class="text-sm font-bold text-emerald-800 uppercase tracking-wider mb-3">Dados do Cliente</h3>
-          <div class="space-y-2">
-            <div>
-              <label class="block text-xs font-medium text-gray-600">Razão Social / Cliente</label>
-              <input type="text" id="in-cliente" value="BR3 AGRONEGOCIOS LTDA" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-medium text-gray-600">Telefone / Fone</label>
-                <input type="text" id="in-fone" value="(77) 9114-4307" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-              </div>
-              <div>
-                <label class="block text-xs font-medium text-gray-600">CNPJ / CPF</label>
-                <input type="text" id="in-cpf" value="77.320-000" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-              </div>
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-gray-600">Endereço / Localidade</label>
-              <input type="text" id="in-endereco" value="TAGUATINGA - TO" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-medium text-gray-600">CC / Fazenda</label>
-                <input type="text" id="in-cc" value="0770/26 - FAZENDAS VALVERDE - NOVO ACORDO TO" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-              </div>
-              <div>
-                <label class="block text-xs font-medium text-gray-600">Produto</label>
-                <input type="text" id="in-produto" value="MILHO" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-              </div>
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-gray-600">Peso Estimado (KG)</label>
-              <input type="text" id="in-peso" value="50.000" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-            </div>
-          </div>
-        </div>
-
-        <!-- DADOS DO MOTORISTA -->
-        <div class="border-b pb-4">
-          <h3 class="text-sm font-bold text-emerald-800 uppercase tracking-wider mb-3">Dados do Motorista</h3>
-          <div class="space-y-2">
-            <div>
-              <label class="block text-xs font-medium text-gray-600">Nome do Motorista</label>
-              <input type="text" id="in-motorista" value="MAXWELL DE OLIVEIRA AGUIAR" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-medium text-gray-600">CPF Motorista</label>
-                <input type="text" id="in-motorista-cpf" value="012.576.818-81" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-              </div>
-              <div>
-                <label class="block text-xs font-medium text-gray-600">Telefone Motorista</label>
-                <input type="text" id="in-motorista-fone" value="(63) 99289-3815" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-              </div>
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-gray-600">Endereço Motorista</label>
-              <input type="text" id="in-motorista-endereco" value="RUA 08, QDR 18, LT 14, S/N, TROPICAL PALMAS, PORTO NACIONAL-TO" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">
-            </div>
-          </div>
-        </div>
-
-        <!-- DADOS DO VEÍCULO -->
-        <div class="border-b pb-4">
-          <h3 class="text-sm font-bold text-emerald-800 uppercase tracking-wider mb-3">Dados dos Veículos</h3>
-          
-          <!-- CAVALO -->
-          <div class="bg-gray-50 p-2 rounded mb-2 border">
-            <span class="text-xs font-bold text-gray-700 block mb-1">Cavalo</span>
-            <div class="grid grid-cols-3 gap-2">
-              <input type="text" id="in-v1-place" placeholder="Placa" value="TVS-1A86" class="p-1 text-xs border rounded">
-              <input type="text" id="in-v1-cidade" placeholder="Cidade/UF" value="MANTENA/MG" class="p-1 text-xs border rounded">
-              <input type="text" id="in-v1-antt" placeholder="ANTT" value="057475822" class="p-1 text-xs border rounded">
-            </div>
-          </div>
-
-          <!-- REBOQUE 1 -->
-          <div class="bg-gray-50 p-2 rounded mb-2 border">
-            <span class="text-xs font-bold text-gray-700 block mb-1">Reboque 1</span>
-            <div class="grid grid-cols-3 gap-2">
-              <input type="text" id="in-v2-place" placeholder="Placa" value="TVB-2148" class="p-1 text-xs border rounded">
-              <input type="text" id="in-v2-cidade" placeholder="Cidade/UF" value="NOVO ACORDO/TO" class="p-1 text-xs border rounded">
-              <input type="text" id="in-v2-antt" placeholder="ANTT" value="57475822" class="p-1 text-xs border rounded">
-            </div>
-          </div>
-
-          <!-- REBOQUE 2 -->
-          <div class="bg-gray-50 p-2 rounded mb-2 border">
-            <span class="text-xs font-bold text-gray-700 block mb-1">Reboque 2</span>
-            <div class="grid grid-cols-3 gap-2">
-              <input type="text" id="in-v3-place" placeholder="Placa" value="TVS-2152" class="p-1 text-xs border rounded">
-              <input type="text" id="in-v3-cidade" placeholder="Cidade/UF" value="NOVO ACORDO/TO" class="p-1 text-xs border rounded">
-              <input type="text" id="in-v3-antt" placeholder="ANTT" value="57475822" class="p-1 text-xs border rounded">
-            </div>
-          </div>
-
-          <!-- REBOQUE 3 -->
-          <div class="bg-gray-50 p-2 rounded mb-2 border">
-            <span class="text-xs font-bold text-gray-700 block mb-1">Reboque 3</span>
-            <div class="grid grid-cols-3 gap-2">
-              <input type="text" id="in-v4-place" placeholder="Placa" value="TVB-2154" class="p-1 text-xs border rounded">
-              <input type="text" id="in-v4-cidade" placeholder="Cidade/UF" value="NOVO ACORDO/TO" class="p-1 text-xs border rounded">
-              <input type="text" id="in-v4-antt" placeholder="ANTT" value="57475822" class="p-1 text-xs border rounded">
-            </div>
-          </div>
-        </div>
-
-        <!-- OBSERVAÇÃO -->
+      <!-- Importacao de PDF -->
+      <div class="bg-green-50 border border-green-300 p-3 sm:p-4 rounded-xl text-xs sm:text-sm text-green-900 flex items-center justify-between">
         <div>
-          <label class="block text-xs font-medium text-gray-600">Observações</label>
-          <textarea id="in-obs" rows="2" class="w-full p-2 text-sm border rounded focus:ring-1 focus:ring-emerald-500">FAZENDAS VALVERDE - NOVO ACORDO TO</textarea>
+          <strong class="block font-bold text-sm sm:text-base">Instrução de Importação:</strong>
+          <span>Envie o PDF recebido para preenchimento automático.</span>
         </div>
-
-      </form>
-    </div>
-
-    <!-- COLUNA DE PRÉ-VISUALIZAÇÃO / IMPRESSÃO (DIREITA) -->
-    <div class="lg:col-span-6">
-      <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-300 sticky top-4 text-xs" id="printable-area">
-        
-        <!-- CABEÇALHO DO DOCUMENTO -->
-        <div class="flex justify-between items-start border-b-2 border-emerald-800 pb-3 mb-4">
-          <div>
-            <h2 class="text-xl font-extrabold text-emerald-900 tracking-wider">AGROGRÃOS</h2>
-            <p class="text-[10px] font-semibold text-gray-600 uppercase tracking-widest">CORRETORA</p>
-          </div>
-          <div class="text-right">
-            <h3 class="text-sm font-bold text-gray-800 uppercase">ORDEM DE CARREGAMENTO</h3>
-            <p class="text-xs text-gray-600">Nº <span id="out-numero" class="font-bold text-red-600">10344</span></p>
-            <p class="text-[10px] text-gray-500 mt-1" id="out-data">APARECIDA DO RIO NEGRO/TO</p>
-          </div>
-        </div>
-
-        <!-- TABELA DE DADOS DO CLIENTE -->
-        <div class="mb-3">
-          <div class="bg-emerald-800 text-white text-[11px] font-bold px-2 py-1 uppercase rounded-t">
-            Dados do Cliente
-          </div>
-          <table class="w-full border-collapse border border-gray-300 text-[11px]">
-            <tbody>
-              <tr class="border-b border-gray-200">
-                <td class="w-1/4 bg-gray-50 font-semibold text-gray-700 p-1">Cliente:</td>
-                <td class="w-3/4 font-medium p-1" id="out-cliente">BR3 AGRONEGOCIOS LTDA</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Fone:</td>
-                <td class="font-medium p-1" id="out-fone">(77) 9114-4307</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700 p-1">CPF/CNPJ:</td>
-                <td class="font-medium p-1" id="out-cpf">77.320-000</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Endereço:</td>
-                <td class="font-medium p-1" id="out-endereco">TAGUATINGA - TO</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700 p-1">CC:</td>
-                <td class="font-medium p-1" id="out-cc">0770/26 - FAZENDAS VALVERDE - NOVO ACORDO TO</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Produto:</td>
-                <td class="font-bold text-emerald-900 p-1" id="out-produto">MILHO</td>
-              </tr>
-              <tr>
-                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Peso Est.:</td>
-                <td class="font-bold p-1" id="out-peso">50.000 KG</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- TABELA DE DADOS DO MOTORISTA -->
-        <div class="mb-3">
-          <div class="bg-emerald-800 text-white text-[11px] font-bold px-2 py-1 uppercase rounded-t">
-            Dados do Motorista
-          </div>
-          <table class="w-full border-collapse border border-gray-300 text-[11px]">
-            <tbody>
-              <tr class="border-b border-gray-200">
-                <td class="w-1/4 bg-gray-50 font-semibold text-gray-700 p-1">Motorista:</td>
-                <td class="w-3/4 font-medium p-1" id="out-motorista">MAXWELL DE OLIVEIRA AGUIAR</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700 p-1">CPF:</td>
-                <td class="font-medium p-1" id="out-motorista-cpf">012.576.818-81</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Fone:</td>
-                <td class="font-medium p-1" id="out-motorista-fone">(63) 99289-3815</td>
-              </tr>
-              <tr>
-                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Endereço:</td>
-                <td class="font-medium p-1" id="out-motorista-endereco">RUA 08, QDR 18, LT 14, S/N, TROPICAL PALMAS, PORTO NACIONAL-TO</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- TABELA DE DADOS DO VEÍCULO (AJUSTADA PARA CABER CORRETAMENTE) -->
-        <div class="mb-3">
-          <div class="bg-emerald-800 text-white text-[11px] font-bold px-2 py-1 uppercase rounded-t">
-            Dados do Veículo
-          </div>
-          <table class="w-full border-collapse border border-gray-300 text-[10px]">
-            <thead>
-              <tr class="bg-gray-100 border-b border-gray-300 text-gray-700 font-bold">
-                <th class="text-left border-r border-gray-300 p-1 w-[32%]">Tipo</th>
-                <th class="text-left border-r border-gray-300 p-1 w-[18%]">Placa</th>
-                <th class="text-left border-r border-gray-300 p-1 w-[32%]">Cidade/UF</th>
-                <th class="text-left p-1 w-[18%]">ANTT</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-              <tr class="border-b border-gray-200">
-                <td class="font-semibold text-gray-700 border-r border-gray-300 p-1">Placa - Cavalo:</td>
-                <td class="font-medium border-r border-gray-300 p-1" id="out-v1-place">TVS-1A86</td>
-                <td class="font-medium border-r border-gray-300 p-1 truncate" id="out-v1-cidade">MANTENA/MG</td>
-                <td class="font-medium p-1" id="out-v1-antt">057475822</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="font-semibold text-gray-700 border-r border-gray-300 p-1">Placa - Reboque:</td>
-                <td class="font-medium border-r border-gray-300 p-1" id="out-v2-place">TVB-2148</td>
-                <td class="font-medium border-r border-gray-300 p-1 truncate" id="out-v2-cidade">NOVO ACORDO/TO</td>
-                <td class="font-medium p-1" id="out-v2-antt">57475822</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="font-semibold text-gray-700 border-r border-gray-300 p-1">Placa - Reboque:</td>
-                <td class="font-medium border-r border-gray-300 p-1" id="out-v3-place">TVS-2152</td>
-                <td class="font-medium border-r border-gray-300 p-1 truncate" id="out-v3-cidade">NOVO ACORDO/TO</td>
-                <td class="font-medium p-1" id="out-v3-antt">57475822</td>
-              </tr>
-              <tr>
-                <td class="font-semibold text-gray-700 border-r border-gray-300 p-1">Placa - Reboque:</td>
-                <td class="font-medium border-r border-gray-300 p-1" id="out-v4-place">TVB-2154</td>
-                <td class="font-medium border-r border-gray-300 p-1 truncate" id="out-v4-cidade">NOVO ACORDO/TO</td>
-                <td class="font-medium p-1" id="out-v4-antt">57475822</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- TABELA DE OBSERVAÇÕES -->
-        <div class="mb-4">
-          <div class="bg-emerald-800 text-white text-[11px] font-bold px-2 py-1 uppercase rounded-t">
-            Observações
-          </div>
-          <div class="border border-gray-300 p-2 text-xs font-medium text-gray-800 rounded-b min-h-[35px]" id="out-obs">
-            FAZENDAS VALVERDE - NOVO ACORDO TO
-          </div>
-        </div>
-
-        <!-- RODAPÉ DE ASSINATURA -->
-        <div class="mt-8 pt-4 border-t border-gray-300 text-center">
-          <div class="w-56 mx-auto border-t border-gray-400 mb-1"></div>
-          <p class="text-[11px] font-bold text-gray-700 uppercase">AGROGRÃOS CORRETORA</p>
-          <p class="text-[9px] text-gray-500">Assinatura / Carimbo do Responsável</p>
-        </div>
-
+        <i class="fa-solid fa-upload text-green-600 text-xl sm:text-2xl"></i>
       </div>
-    </div>
 
-  </main>
+      <!-- Alterar Imagem da Logo Opcao -->
+      <div class="bg-amber-50 border border-amber-300 p-3 rounded-xl text-xs text-amber-900 flex items-center justify-between">
+        <div>
+          <strong class="block font-bold">Logo do Documento:</strong>
+          <span>Salva automaticamente no navegador.</span>
+        </div>
+        <button onclick="document.getElementById('logo-upload').click()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs shadow">
+          Carregar Logo
+        </button>
+        <input type="file" id="logo-upload" accept="image/*" class="hidden" onchange="carregarNovaLogo(this)">
+      </div>
 
-  <script>
-    function atualizarPreview() {
-      const mapeamento = {
-        'in-numero': 'out-numero',
-        'in-data': 'out-data',
-        'in-cliente': 'out-cliente',
-        'in-fone': 'out-fone',
-        'in-cpf': 'out-cpf',
-        'in-endereco': 'out-endereco',
-        'in-cc': 'out-cc',
-        'in-produto': 'out-produto',
-        'in-peso': 'out-peso',
-        'in-motorista': 'out-motorista',
-        'in-motorista-cpf': 'out-motorista-cpf',
-        'in-motorista-fone': 'out-motorista-fone',
-        'in-motorista-endereco': 'out-motorista-endereco',
-        'in-v1-place': 'out-v1-place',
-        'in-v1-cidade': 'out-v1-cidade',
-        'in-v1-antt': 'out-v1-antt',
-        'in-v2-place': 'out-v2-place',
-        'in-v2-cidade': 'out-v2-cidade',
-        'in-v2-antt': 'out-v2-antt',
-        'in-v3-place': 'out-v3-place',
-        'in-v3-cidade': 'out-v3-cidade',
-        'in-v3-antt': 'out-v3-antt',
-        'in-v4-place': 'out-v4-place',
-        'in-v4-cidade': 'out-v4-cidade',
-        'in-v4-antt': 'out-v4-antt',
-        'in-obs': 'out-obs'
-      };
+      <form id="ordem-form" class="space-y-4 sm:space-y-5 text-sm" onsubmit="return false;">
+        
+        <!-- Numero do Documento e Data -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-gray-50 p-3 sm:p-4 rounded-xl border border-gray-200">
+          <div>
+            <label class="font-bold text-gray-800 block mb-1 text-xs sm:text-sm">Nº da Ordem</label>
+            <input type="text" id="in-numero" class="w-full p-2.5 sm:p-3 text-base border-2 border-gray-300 rounded-lg font-mono font-bold text-blue-800" value="02941" oninput="atualizarPreview()">
+          </div>
+          <div>
+            <label class="font-bold text-gray-800 block mb-1 text-xs sm:text-sm">Data de Emissão</label>
+            <input type="text" id="in-data" class="w-full p-2.5 sm:p-3 text-xs sm:text-sm border-2 border-gray-300 rounded-lg font-medium" value="PALMAS/TO: quarta-feira, 14 de outubro de 2026" oninput="atualizarPreview()">
+          </div>
+        </div>
 
-      for (let inputId in mapeamento) {
-        let outputId = mapeamento[inputId];
-        let inputEl = document.getElementById(inputId);
-        let outputEl = document.getElementById(outputId);
-
-        if (inputEl && outputEl) {
-          let val = inputEl.value;
-          if (inputId === 'in-peso' && val && !val.includes('KG')) {
-            val = val + ' KG';
-          }
-          outputEl.innerText = val;
-        }
-      }
-    }
-
-    function processarTextoColado() {
-      let texto = document.getElementById('input-colar').value;
-      if (!texto) return;
-
-      let matchNum = texto.match(/(?:Nº|Ordem|OC|Nº Ordem)[:\s]*(\d+)/i);
-      if (matchNum) document.getElementById('in-numero').value = matchNum[1];
-
-      let matchCPF = texto.match(/\d{2,3}\.\d{3}\.\d{3}[\/-\d]*/);
-      if (matchCPF) document.getElementById('in-cpf').value = matchCPF[0];
-
-      let placas = texto.match(/[A-Z]{3}[0-9][A-Z0-9][0-9]{2}/g);
-      if (placas && placas.length > 0) {
-        if (placas[0]) document.getElementById('in-v1-place').value = placas[0];
-        if (placas[1]) document.getElementById('in-v2-place').value = placas[1];
-        if (placas[2]) document.getElementById('in-v3-place').value = placas[2];
-        if (placas[3]) document.getElementById('in-v4-place').value = placas[3];
-      }
-
-      let matchProduto = texto.match(/(MILHO|SOJA|SORGO|TRIGO)/i);
-      if (matchProduto) document.getElementById('in-produto').value = matchProduto[0].toUpperCase();
-
-      atualizarPreview();
-    }
-
-    atualizarPreview();
-  </script>
-</body>
-</html>
+        <!-- Dados do Cliente -->
+        <div id="bloco-cliente" class="border-2 border-gray-200 rounded-xl p-3 sm:p-4 space-y-3 bg-gray-50 relative">
+          <div class="flex justify-between items-center border-b pb-1.5">
+            <h3 class="font-bold text-green-900 uppercase text-xs sm:text-sm flex items-center gap-1.5">
+              <i class="fa-solid fa-user-tie"></i> Dados do Cliente
+            </h3>
+            <button type="button" onclick="alternarBloco('bloco-cliente', 'row-out-cliente')" class="text-red-500 hover:text-red-700 font-bold px-2 py-1 text-xs rounded border border-red-200 bg-white" title="Excluir/Ocultar bloco">
+              <i class="fa-solid fa-xmark"></i> Excluir Bloco
+            </button>
+          </div>
+          <div id="wrap-in-fornecedor">
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-gray-700 font-semibold">Cliente</label>
+              <button type="button" onclick="ocultarCampo('wrap-in-fornecedor', 'wrap-out-fornecedor')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir campo</button>
+            </div>
+            <input type="text" id="in-fornecedor" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg font-medium" value="BR3 AGRONEGOCIOS LTDA" oninput="atualizarPreview()">
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div id="wrap-in-fornecedor-fones">
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-gray-700 font-semibold">Telefones</label>
+                <button type="button" onclick="ocultarCampo('wrap-in-fornecedor-fones', 'wrap-out-fornecedor-fones')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir campo</button>
+              </div>
+              <input type="text" id="in-fornecedor-fones" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg" value="(77) 8114-4307" oninput="atualizarPreview()">
+            </div>
+            <div id="wrap-in-fornecedor-cep">
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-gray-700 font-semibold">CEP</label>
+                <button type="button" onclick="ocultarCampo('wrap-in-fornecedor-cep', 'wrap-out-fornecedor-cep')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir campo</button>
+              </div>
+              <input type="text" id="in-fornecedor-cep" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg" value="77.320-000" oninput="atualizarPreview()">
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 sm:gap-3">
+            <div class="col-span-2" id="wrap-in-fornecedor-cidade">
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-gray-700 font-semibold">Cidade</label>
+                <button type="button" onclick="ocultarCampo('wrap-in-fornecedor-cidade', 'wrap-out-fornecedor-cidade')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir campo</button>
+              </div>
+              <input type="text" id="in-fornecedor-cidade" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg" value="Taguatinga" oninput="atualizarPreview()">
+            </div>
+            <div id="wrap-in-fornecedor-uf">
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-gray-700 font-semibold">UF</label>
+                <button type="button" onclick="ocultarCampo('wrap-in-fornecedor-uf', 'wrap-out-fornecedor-uf')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir</button>
+              </div>
+              <input type="text" id="in-fornecedor-uf" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg uppercase text-center font-bold" value="TO" oninput="atualizarPreview()">
+            </div>
+          </div>
+          <div id="wrap-in-embarque">
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-gray-700 font-semibold">Local de Embarque</label>
+              <button type="button" onclick="ocultarCampo('wrap-in-embarque', 'wrap-out-embarque')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir campo</button>
+            </div>
+            <input type="text" id="in-embarque" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg font-medium" value="CC: 0170/26 - FAZENDAS VALVERDE - NOVO ACORDO TO" oninput="atualizarPreview()">
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div id="wrap-in-produto" class="relative">
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-gray-700 font-semibold">Produto (Clique para opções)</label>
+                <button type="button" onclick="ocultarCampo('wrap-in-produto', 'wrap-out-produto')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir
