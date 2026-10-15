@@ -14,15 +14,6 @@
       #printable-area { position: absolute; left: 0; top: 0; width: 100%; }
       .no-print { display: none !important; }
     }
-    .preview-table th, .preview-table td {
-      padding: 3px 6px;
-      font-size: 11px;
-      word-break: break-word;
-    }
-    .field-label {
-      font-weight: 600;
-      color: #374151;
-    }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen pb-12 font-sans text-gray-800">
@@ -199,147 +190,145 @@
 
     <!-- COLUNA DE PRÉ-VISUALIZAÇÃO / IMPRESSÃO (DIREITA) -->
     <div class="lg:col-span-6">
-      <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-300 sticky top-4" id="printable-area">
+      <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-300 sticky top-4 text-xs" id="printable-area">
         
         <!-- CABEÇALHO DO DOCUMENTO -->
         <div class="flex justify-between items-start border-b-2 border-emerald-800 pb-3 mb-4">
           <div>
             <h2 class="text-xl font-extrabold text-emerald-900 tracking-wider">AGROGRÃOS</h2>
-            <p class="text-xs font-semibold text-gray-600 uppercase tracking-widest">CORRETORA</p>
+            <p class="text-[10px] font-semibold text-gray-600 uppercase tracking-widest">CORRETORA</p>
           </div>
           <div class="text-right">
-            <h3 class="text-md font-bold text-gray-800 uppercase">ORDEM DE CARREGAMENTO</h3>
+            <h3 class="text-sm font-bold text-gray-800 uppercase">ORDEM DE CARREGAMENTO</h3>
             <p class="text-xs text-gray-600">Nº <span id="out-numero" class="font-bold text-red-600">10344</span></p>
             <p class="text-[10px] text-gray-500 mt-1" id="out-data">APARECIDA DO RIO NEGRO/TO</p>
           </div>
         </div>
 
         <!-- TABELA DE DADOS DO CLIENTE -->
-        <div class="mb-4">
-          <div class="bg-emerald-800 text-white text-xs font-bold px-2 py-1 uppercase rounded-t">
+        <div class="mb-3">
+          <div class="bg-emerald-800 text-white text-[11px] font-bold px-2 py-1 uppercase rounded-t">
             Dados do Cliente
           </div>
-          <table class="w-full border-collapse border border-gray-300 preview-table">
+          <table class="w-full border-collapse border border-gray-300 text-[11px]">
             <tbody>
               <tr class="border-b border-gray-200">
-                <td class="w-1/4 bg-gray-50 font-semibold text-gray-700">Cliente:</td>
-                <td class="w-3/4 font-medium" id="out-cliente">BR3 AGRONEGOCIOS LTDA</td>
+                <td class="w-1/4 bg-gray-50 font-semibold text-gray-700 p-1">Cliente:</td>
+                <td class="w-3/4 font-medium p-1" id="out-cliente">BR3 AGRONEGOCIOS LTDA</td>
               </tr>
               <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700">Fone:</td>
-                <td class="font-medium" id="out-fone">(77) 9114-4307</td>
+                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Fone:</td>
+                <td class="font-medium p-1" id="out-fone">(77) 9114-4307</td>
               </tr>
               <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700">CPF/CNPJ:</td>
-                <td class="font-medium" id="out-cpf">77.320-000</td>
+                <td class="bg-gray-50 font-semibold text-gray-700 p-1">CPF/CNPJ:</td>
+                <td class="font-medium p-1" id="out-cpf">77.320-000</td>
               </tr>
               <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700">Endereço:</td>
-                <td class="font-medium" id="out-endereco">TAGUATINGA - TO</td>
+                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Endereço:</td>
+                <td class="font-medium p-1" id="out-endereco">TAGUATINGA - TO</td>
               </tr>
               <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700">CC:</td>
-                <td class="font-medium" id="out-cc">0770/26 - FAZENDAS VALVERDE - NOVO ACORDO TO</td>
+                <td class="bg-gray-50 font-semibold text-gray-700 p-1">CC:</td>
+                <td class="font-medium p-1" id="out-cc">0770/26 - FAZENDAS VALVERDE - NOVO ACORDO TO</td>
               </tr>
               <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700">Produto:</td>
-                <td class="font-bold text-emerald-900" id="out-produto">MILHO</td>
+                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Produto:</td>
+                <td class="font-bold text-emerald-900 p-1" id="out-produto">MILHO</td>
               </tr>
               <tr>
-                <td class="bg-gray-50 font-semibold text-gray-700">Peso Est.:</td>
-                <td class="font-bold" id="out-peso">50.000 KG</td>
+                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Peso Est.:</td>
+                <td class="font-bold p-1" id="out-peso">50.000 KG</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <!-- TABELA DE DADOS DO MOTORISTA -->
-        <div class="mb-4">
-          <div class="bg-emerald-800 text-white text-xs font-bold px-2 py-1 uppercase rounded-t">
+        <div class="mb-3">
+          <div class="bg-emerald-800 text-white text-[11px] font-bold px-2 py-1 uppercase rounded-t">
             Dados do Motorista
           </div>
-          <table class="w-full border-collapse border border-gray-300 preview-table">
+          <table class="w-full border-collapse border border-gray-300 text-[11px]">
             <tbody>
               <tr class="border-b border-gray-200">
-                <td class="w-1/4 bg-gray-50 font-semibold text-gray-700">Motorista:</td>
-                <td class="w-3/4 font-medium" id="out-motorista">MAXWELL DE OLIVEIRA AGUIAR</td>
+                <td class="w-1/4 bg-gray-50 font-semibold text-gray-700 p-1">Motorista:</td>
+                <td class="w-3/4 font-medium p-1" id="out-motorista">MAXWELL DE OLIVEIRA AGUIAR</td>
               </tr>
               <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700">CPF:</td>
-                <td class="font-medium" id="out-motorista-cpf">012.576.818-81</td>
+                <td class="bg-gray-50 font-semibold text-gray-700 p-1">CPF:</td>
+                <td class="font-medium p-1" id="out-motorista-cpf">012.576.818-81</td>
               </tr>
               <tr class="border-b border-gray-200">
-                <td class="bg-gray-50 font-semibold text-gray-700">Fone:</td>
-                <td class="font-medium" id="out-motorista-fone">(63) 99289-3815</td>
+                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Fone:</td>
+                <td class="font-medium p-1" id="out-motorista-fone">(63) 99289-3815</td>
               </tr>
               <tr>
-                <td class="bg-gray-50 font-semibold text-gray-700">Endereço:</td>
-                <td class="font-medium" id="out-motorista-endereco">RUA 08, QDR 18, LT 14, S/N, TROPICAL PALMAS, PORTO NACIONAL-TO</td>
+                <td class="bg-gray-50 font-semibold text-gray-700 p-1">Endereço:</td>
+                <td class="font-medium p-1" id="out-motorista-endereco">RUA 08, QDR 18, LT 14, S/N, TROPICAL PALMAS, PORTO NACIONAL-TO</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <!-- TABELA DE DADOS DO VEÍCULO (AJUSTADA E OTIMIZADA) -->
-        <div class="mb-4">
-          <div class="bg-emerald-800 text-white text-xs font-bold px-2 py-1 uppercase rounded-t">
+        <!-- TABELA DE DADOS DO VEÍCULO (AJUSTADA PARA CABER CORRETAMENTE) -->
+        <div class="mb-3">
+          <div class="bg-emerald-800 text-white text-[11px] font-bold px-2 py-1 uppercase rounded-t">
             Dados do Veículo
           </div>
-          <div class="border border-gray-300 rounded-b overflow-x-auto">
-            <table class="w-full border-collapse preview-table table-fixed text-[11px]">
-              <thead>
-                <tr class="bg-gray-100 border-b border-gray-300 text-gray-700 font-bold">
-                  <th class="w-[28%] text-left border-r border-gray-300 px-1 py-1">Tipo</th>
-                  <th class="w-[22%] text-left border-r border-gray-300 px-1 py-1">Placa</th>
-                  <th class="w-[30%] text-left border-r border-gray-300 px-1 py-1">Cidade/UF</th>
-                  <th class="w-[20%] text-left px-1 py-1">ANTT</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200">
-                <tr>
-                  <td class="font-semibold text-gray-700 border-r border-gray-300 px-1 py-1">Placa - Cavalo:</td>
-                  <td class="font-medium border-r border-gray-300 px-1 py-1" id="out-v1-place">TVS-1A86</td>
-                  <td class="font-medium border-r border-gray-300 px-1 py-1" id="out-v1-cidade">MANTENA/MG</td>
-                  <td class="font-medium px-1 py-1" id="out-v1-antt">057475822</td>
-                </tr>
-                <tr>
-                  <td class="font-semibold text-gray-700 border-r border-gray-300 px-1 py-1">Placa - Reboque:</td>
-                  <td class="font-medium border-r border-gray-300 px-1 py-1" id="out-v2-place">TVB-2148</td>
-                  <td class="font-medium border-r border-gray-300 px-1 py-1" id="out-v2-cidade">NOVO ACORDO/TO</td>
-                  <td class="font-medium px-1 py-1" id="out-v2-antt">57475822</td>
-                </tr>
-                <tr>
-                  <td class="font-semibold text-gray-700 border-r border-gray-300 px-1 py-1">Placa - Reboque:</td>
-                  <td class="font-medium border-r border-gray-300 px-1 py-1" id="out-v3-place">TVS-2152</td>
-                  <td class="font-medium border-r border-gray-300 px-1 py-1" id="out-v3-cidade">NOVO ACORDO/TO</td>
-                  <td class="font-medium px-1 py-1" id="out-v3-antt">57475822</td>
-                </tr>
-                <tr>
-                  <td class="font-semibold text-gray-700 border-r border-gray-300 px-1 py-1">Placa - Reboque:</td>
-                  <td class="font-medium border-r border-gray-300 px-1 py-1" id="out-v4-place">TVB-2154</td>
-                  <td class="font-medium border-r border-gray-300 px-1 py-1" id="out-v4-cidade">NOVO ACORDO/TO</td>
-                  <td class="font-medium px-1 py-1" id="out-v4-antt">57475822</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table class="w-full border-collapse border border-gray-300 text-[10px]">
+            <thead>
+              <tr class="bg-gray-100 border-b border-gray-300 text-gray-700 font-bold">
+                <th class="text-left border-r border-gray-300 p-1 w-[32%]">Tipo</th>
+                <th class="text-left border-r border-gray-300 p-1 w-[18%]">Placa</th>
+                <th class="text-left border-r border-gray-300 p-1 w-[32%]">Cidade/UF</th>
+                <th class="text-left p-1 w-[18%]">ANTT</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <tr class="border-b border-gray-200">
+                <td class="font-semibold text-gray-700 border-r border-gray-300 p-1">Placa - Cavalo:</td>
+                <td class="font-medium border-r border-gray-300 p-1" id="out-v1-place">TVS-1A86</td>
+                <td class="font-medium border-r border-gray-300 p-1 truncate" id="out-v1-cidade">MANTENA/MG</td>
+                <td class="font-medium p-1" id="out-v1-antt">057475822</td>
+              </tr>
+              <tr class="border-b border-gray-200">
+                <td class="font-semibold text-gray-700 border-r border-gray-300 p-1">Placa - Reboque:</td>
+                <td class="font-medium border-r border-gray-300 p-1" id="out-v2-place">TVB-2148</td>
+                <td class="font-medium border-r border-gray-300 p-1 truncate" id="out-v2-cidade">NOVO ACORDO/TO</td>
+                <td class="font-medium p-1" id="out-v2-antt">57475822</td>
+              </tr>
+              <tr class="border-b border-gray-200">
+                <td class="font-semibold text-gray-700 border-r border-gray-300 p-1">Placa - Reboque:</td>
+                <td class="font-medium border-r border-gray-300 p-1" id="out-v3-place">TVS-2152</td>
+                <td class="font-medium border-r border-gray-300 p-1 truncate" id="out-v3-cidade">NOVO ACORDO/TO</td>
+                <td class="font-medium p-1" id="out-v3-antt">57475822</td>
+              </tr>
+              <tr>
+                <td class="font-semibold text-gray-700 border-r border-gray-300 p-1">Placa - Reboque:</td>
+                <td class="font-medium border-r border-gray-300 p-1" id="out-v4-place">TVB-2154</td>
+                <td class="font-medium border-r border-gray-300 p-1 truncate" id="out-v4-cidade">NOVO ACORDO/TO</td>
+                <td class="font-medium p-1" id="out-v4-antt">57475822</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <!-- TABELA DE OBSERVAÇÕES -->
-        <div class="mb-6">
-          <div class="bg-emerald-800 text-white text-xs font-bold px-2 py-1 uppercase rounded-t">
+        <div class="mb-4">
+          <div class="bg-emerald-800 text-white text-[11px] font-bold px-2 py-1 uppercase rounded-t">
             Observações
           </div>
-          <div class="border border-gray-300 p-2 text-xs font-medium text-gray-800 rounded-b min-h-[40px]" id="out-obs">
+          <div class="border border-gray-300 p-2 text-xs font-medium text-gray-800 rounded-b min-h-[35px]" id="out-obs">
             FAZENDAS VALVERDE - NOVO ACORDO TO
           </div>
         </div>
 
         <!-- RODAPÉ DE ASSINATURA -->
-        <div class="mt-12 pt-6 border-t border-gray-300 text-center">
-          <div class="w-64 mx-auto border-t border-gray-400 mb-1"></div>
-          <p class="text-xs font-bold text-gray-700 uppercase">AGROGRÃOS CORRETORA</p>
-          <p class="text-[10px] text-gray-500">Assinatura / Carimbo do Responsável</p>
+        <div class="mt-8 pt-4 border-t border-gray-300 text-center">
+          <div class="w-56 mx-auto border-t border-gray-400 mb-1"></div>
+          <p class="text-[11px] font-bold text-gray-700 uppercase">AGROGRÃOS CORRETORA</p>
+          <p class="text-[9px] text-gray-500">Assinatura / Carimbo do Responsável</p>
         </div>
 
       </div>
@@ -349,7 +338,6 @@
 
   <script>
     function atualizarPreview() {
-      // Mapeamento dos campos de entrada para as saídas
       const mapeamento = {
         'in-numero': 'out-numero',
         'in-data': 'out-data',
@@ -418,7 +406,6 @@
       atualizarPreview();
     }
 
-    // Inicializar visualização
     atualizarPreview();
   </script>
 </body>
