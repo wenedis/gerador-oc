@@ -117,7 +117,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-gray-50 p-3 sm:p-4 rounded-xl border border-gray-200">
           <div>
             <label class="font-bold text-gray-800 block mb-1 text-xs sm:text-sm">N&ordm; da Ordem</label>
-            <input type="text" id="in-numero" class="w-full p-2.5 sm:p-3 text-base border-2 border-gray-300 rounded-lg font-mono font-bold text-blue-800" value="02941" oninput="atualizarPreview()">
+            <input type="text" id="in-numero" class="w-full p-2.5 sm:p-3 text-base border-2 border-gray-300 rounded-lg font-mono font-bold text-gray-900" value="02941" oninput="atualizarPreview()">
           </div>
           <div>
             <label class="font-bold text-gray-800 block mb-1 text-xs sm:text-sm">Data de Emiss&atilde;o</label>
@@ -187,14 +187,14 @@
                 <label class="text-gray-700 font-semibold">Produto (Clique para op&ccedil;&otilde;es)</label>
                 <button type="button" onclick="ocultarCampo('wrap-in-produto', 'wrap-out-produto')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir</button>
               </div>
-              <input type="text" id="in-produto" class="w-full p-2.5 text-sm sm:text-base border-2 border-green-600 rounded-lg font-bold text-green-900 cursor-pointer" value="MILHO" onclick="toggleListaCereais(event)" oninput="atualizarPreview()" readonly>
+              <input type="text" id="in-produto" class="w-full p-2.5 text-sm sm:text-base border-2 border-green-600 rounded-lg font-bold text-gray-900 cursor-pointer" value="MILHO" onclick="toggleListaCereais(event)" oninput="atualizarPreview()" readonly>
               <!-- Lista Suspensa de Cereais -->
               <div id="dropdown-cereais" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-20">
-                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-green-900 border-b" onclick="selecionarCereal('MILHO')">MILHO</div>
-                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-green-900 border-b" onclick="selecionarCereal('SOJA')">SOJA</div>
-                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-green-900 border-b" onclick="selecionarCereal('SORGO')">SORGO</div>
-                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-green-900 border-b" onclick="selecionarCereal('MILHETO')">MILHETO</div>
-                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-green-900" onclick="selecionarCereal('ARROZ')">ARROZ</div>
+                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-gray-900 border-b" onclick="selecionarCereal('MILHO')">MILHO</div>
+                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-gray-900 border-b" onclick="selecionarCereal('SOJA')">SOJA</div>
+                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-gray-900 border-b" onclick="selecionarCereal('SORGO')">SORGO</div>
+                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-gray-900 border-b" onclick="selecionarCereal('MILHETO')">MILHETO</div>
+                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-gray-900" onclick="selecionarCereal('ARROZ')">ARROZ</div>
               </div>
             </div>
             <div id="wrap-in-peso">
@@ -351,14 +351,14 @@
           <div class="flex justify-between items-center mb-1">
             <h2 class="text-sm sm:text-base font-bold uppercase tracking-wider text-gray-900 border-b-2 border-black pb-0.5">ORDEM DE CARREGAMENTO</h2>
             <div class="text-right">
-              <span class="text-xs sm:text-sm font-bold text-gray-900">N&ordm;: <span id="out-numero" class="text-blue-900">02941</span></span>
+              <span class="text-xs sm:text-sm font-bold text-gray-900">N&ordm;: <span id="out-numero" class="text-gray-900">02941</span></span>
             </div>
           </div>
 
           <!-- Bloco Dados do Cliente -->
           <div id="row-out-cliente" class="border border-gray-400 rounded p-1 mb-1">
             <div class="grid grid-cols-12 gap-x-2 gap-y-0 text-[10px] sm:text-xs">
-              <div class="col-span-12 font-bold text-gray-800 border-b border-gray-200 pb-0.5 mb-0.5">Dados do Cliente</div>
+              <div class="col-span-12 font-bold text-gray-900 border-b border-gray-200 pb-0.5 mb-0.5">Dados do Cliente</div>
               
               <div id="wrap-out-fornecedor" class="col-span-12 grid grid-cols-12 gap-x-2">
                 <div class="col-span-3 sm:col-span-2 font-bold">Cliente:</div>
@@ -412,7 +412,7 @@
           <!-- Bloco Dados do Motorista -->
           <div id="row-out-motorista" class="border border-gray-400 rounded p-1 mb-1">
             <div class="grid grid-cols-12 gap-x-2 gap-y-0 text-[10px] sm:text-xs">
-              <div class="col-span-12 font-bold text-gray-800 border-b border-gray-200 pb-0.5 mb-0.5">Dados do Motorista</div>
+              <div class="col-span-12 font-bold text-gray-900 border-b border-gray-200 pb-0.5 mb-0.5">Dados do Motorista</div>
 
               <div id="wrap-out-motorista" class="col-span-12 grid grid-cols-12 gap-x-2">
                 <div class="col-span-3 sm:col-span-2 font-bold">Motorista:</div>
@@ -438,7 +438,7 @@
 
           <!-- Bloco Dados do Veiculo -->
           <div id="row-out-veiculos" class="border border-gray-400 rounded p-1 mb-1">
-            <div class="font-bold text-gray-800 border-b border-gray-200 pb-0.5 mb-0.5 text-[10px] sm:text-xs">Dados do Ve&iacute;culo</div>
+            <div class="font-bold text-gray-900 border-b border-gray-200 pb-0.5 mb-0.5 text-[10px] sm:text-xs">Dados do Ve&iacute;culo</div>
             
             <table class="w-full text-[10px] sm:text-xs border-collapse">
               <tbody>
@@ -480,7 +480,7 @@
 
           <!-- Observacoes -->
           <div id="row-out-obs" class="border border-gray-400 rounded p-1 mb-1">
-            <div class="font-bold text-gray-800 mb-0.5 text-[10px] sm:text-xs">Obs.</div>
+            <div class="font-bold text-gray-900 mb-0.5 text-[10px] sm:text-xs">Obs.</div>
             <div class="grid grid-cols-12 gap-2 text-[10px] sm:text-xs">
               <div class="col-span-3 sm:col-span-2 font-bold">Observa&ccedil;&atilde;o:</div>
               <div id="out-obs" class="col-span-9 sm:col-span-10 uppercase font-semibold">FAZENDAS VALVERDE - NOVO ACORDO TO</div>
@@ -488,15 +488,15 @@
           </div>
         </div>
 
-        <!-- Rodape e Assinaturas -->
-        <div class="mt-1 space-y-1.5">
-          <div id="out-data" class="text-[11px] font-semibold">APARECIDA DO RIO NEGRO/TO: quarta-feira, 14 de outubro de 2026</div>
+        <!-- Rodape e Assinaturas (Espaçamento Ajustado) -->
+        <div class="mt-8 pt-4 space-y-1.5 border-t border-gray-200">
+          <div id="out-data" class="text-[11px] font-semibold mb-4">APARECIDA DO RIO NEGRO/TO: quarta-feira, 14 de outubro de 2026</div>
 
-          <div class="grid grid-cols-2 gap-4 sm:gap-8 pt-2">
-            <div class="text-center border-t border-gray-400 pt-1">
+          <div class="grid grid-cols-2 gap-8 pt-6">
+            <div class="text-center border-t border-gray-600 pt-2">
               <div id="out-assinatura-motorista" class="font-bold text-[9px] sm:text-[10px] uppercase">MAXWELL DE OLIVEIRA AGUIAR</div>
             </div>
-            <div class="text-center border-t border-gray-400 pt-1">
+            <div class="text-center border-t border-gray-600 pt-2">
               <div class="font-bold text-[9px] sm:text-[10px] uppercase">WENEDIS ADRIANO</div>
             </div>
           </div>
