@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agrogr&atilde;os Corretora - Gerador de Ordem de Carregamento</title>
   
-  <!-- Configurações para transformar em App (PWA) -->
+  <!-- Configurações para transformar em App (PWA) e carregar a imagem -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0f766e">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Agrogrãos">
   <link rel="apple-touch-icon" href="imagem.jpg">
+  <link rel="icon" type="image/jpeg" href="imagem.jpg">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
@@ -29,6 +30,9 @@
         padding: 4mm 6mm; 
         box-shadow: none !important; 
         border: none !important; 
+        background: white !important; 
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .no-print { display: none !important; }
     }
