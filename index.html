@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agrogrãos Corretora - Gerador de Ordem de Carregamento</title>
+  <title>Agrogr&atilde;os Corretora - Gerador de Ordem de Carregamento</title>
   
   <!-- Configurações para transformar em App (PWA) -->
   <link rel="manifest" href="manifest.json">
@@ -29,7 +29,6 @@
     input, textarea, select { transition: all 0.2s ease; }
     input:focus, textarea:focus, select:focus { outline: 2px solid #15803d; border-color: transparent; }
     .campo-oculto { display: none !important; }
-    .veiculo-table th, .veiculo-table td { padding: 3px 4px; font-size: 11px; word-break: break-word; }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-800 flex flex-col">
@@ -42,7 +41,7 @@
           <i class="fa-solid fa-wheat-awn"></i>
         </div>
         <div>
-          <h1 class="font-bold text-lg sm:text-2xl tracking-wide text-amber-300">AGROGRÃOS CORRETORA</h1>
+          <h1 class="font-bold text-lg sm:text-2xl tracking-wide text-amber-300">AGROGR&Atilde;OS CORRETORA</h1>
           <p class="text-xs sm:text-sm text-green-200">Gerador &amp; Leitor de Ordens de Carregamento</p>
         </div>
       </div>
@@ -65,7 +64,7 @@
     <div class="lg:col-span-6 space-y-4 sm:space-y-5 no-print bg-white p-4 sm:p-6 rounded-2xl shadow-md border border-gray-200 h-fit">
       <div class="border-b pb-3 flex justify-between items-center">
         <h2 class="text-lg sm:text-xl font-bold text-green-900 flex items-center gap-2">
-          <i class="fa-solid fa-pen-to-square"></i> Editar Informações
+          <i class="fa-solid fa-pen-to-square"></i> Editar Informa&ccedil;&otilde;es
         </h2>
         <span class="text-xs sm:text-sm text-gray-500 font-medium">Altere o que precisar</span>
       </div>
@@ -73,8 +72,8 @@
       <!-- Importacao de PDF -->
       <div class="bg-green-50 border border-green-300 p-3 sm:p-4 rounded-xl text-xs sm:text-sm text-green-900 flex items-center justify-between">
         <div>
-          <strong class="block font-bold text-sm sm:text-base">Instrução de Importação:</strong>
-          <span>Envie o PDF recebido para preenchimento automático.</span>
+          <strong class="block font-bold text-sm sm:text-base">Instru&ccedil;&atilde;o de Importa&ccedil;&atilde;o:</strong>
+          <span>Envie o PDF recebido para preenchimento autom&aacute;tico.</span>
         </div>
         <i class="fa-solid fa-upload text-green-600 text-xl sm:text-2xl"></i>
       </div>
@@ -96,11 +95,11 @@
         <!-- Numero do Documento e Data -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-gray-50 p-3 sm:p-4 rounded-xl border border-gray-200">
           <div>
-            <label class="font-bold text-gray-800 block mb-1 text-xs sm:text-sm">Nº da Ordem</label>
+            <label class="font-bold text-gray-800 block mb-1 text-xs sm:text-sm">N&ordm; da Ordem</label>
             <input type="text" id="in-numero" class="w-full p-2.5 sm:p-3 text-base border-2 border-gray-300 rounded-lg font-mono font-bold text-blue-800" value="02941" oninput="atualizarPreview()">
           </div>
           <div>
-            <label class="font-bold text-gray-800 block mb-1 text-xs sm:text-sm">Data de Emissão</label>
+            <label class="font-bold text-gray-800 block mb-1 text-xs sm:text-sm">Data de Emiss&atilde;o</label>
             <input type="text" id="in-data" class="w-full p-2.5 sm:p-3 text-xs sm:text-sm border-2 border-gray-300 rounded-lg font-medium" value="PALMAS/TO: quarta-feira, 14 de outubro de 2026" oninput="atualizarPreview()">
           </div>
         </div>
@@ -164,5 +163,483 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div id="wrap-in-produto" class="relative">
               <div class="flex justify-between items-center mb-1">
-                <label class="text-gray-700 font-semibold">Produto (Clique para opções)</label>
-                <button type="button" onclick="ocultarCampo('wrap-in-produto', 'wrap-out-produto')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir
+                <label class="text-gray-700 font-semibold">Produto (Clique para op&ccedil;&otilde;es)</label>
+                <button type="button" onclick="ocultarCampo('wrap-in-produto', 'wrap-out-produto')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir</button>
+              </div>
+              <input type="text" id="in-produto" class="w-full p-2.5 text-sm sm:text-base border-2 border-green-600 rounded-lg font-bold text-green-900 cursor-pointer" value="MILHO" onclick="toggleListaCereais(event)" oninput="atualizarPreview()" readonly>
+              <!-- Lista Suspensa de Cereais -->
+              <div id="dropdown-cereais" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-20">
+                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-green-900 border-b" onclick="selecionarCereal('MILHO')">MILHO</div>
+                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-green-900 border-b" onclick="selecionarCereal('SOJA')">SOJA</div>
+                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-green-900 border-b" onclick="selecionarCereal('SORGO')">SORGO</div>
+                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-green-900 border-b" onclick="selecionarCereal('MILHETO')">MILHETO</div>
+                <div class="p-2 hover:bg-green-100 cursor-pointer font-bold text-green-900" onclick="selecionarCereal('ARROZ')">ARROZ</div>
+              </div>
+            </div>
+            <div id="wrap-in-peso">
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-gray-700 font-semibold">Peso Estimado</label>
+                <button type="button" onclick="ocultarCampo('wrap-in-peso', 'wrap-out-peso')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir</button>
+              </div>
+              <input type="text" id="in-peso" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg font-bold" value="50.000" oninput="atualizarPreview()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Dados do Motorista -->
+        <div id="bloco-motorista" class="border-2 border-gray-200 rounded-xl p-3 sm:p-4 space-y-3 bg-gray-50">
+          <div class="flex justify-between items-center border-b pb-1.5">
+            <h3 class="font-bold text-green-900 uppercase text-xs sm:text-sm flex items-center gap-1.5">
+              <i class="fa-solid fa-id-card"></i> Dados do Motorista
+            </h3>
+            <button type="button" onclick="alternarBloco('bloco-motorista', 'row-out-motorista')" class="text-red-500 hover:text-red-700 font-bold px-2 py-1 text-xs rounded border border-red-200 bg-white" title="Excluir/Ocultar bloco">
+              <i class="fa-solid fa-xmark"></i> Excluir Bloco
+            </button>
+          </div>
+          <div id="wrap-in-motorista">
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-gray-700 font-semibold">Nome do Motorista</label>
+              <button type="button" onclick="ocultarCampo('wrap-in-motorista', 'wrap-out-motorista')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir campo</button>
+            </div>
+            <input type="text" id="in-motorista" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg font-bold uppercase" value="MAXWELL DE OLIVEIRA AGUIAR" oninput="atualizarPreview()">
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div id="wrap-in-cpf">
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-gray-700 font-semibold">CPF</label>
+                <button type="button" onclick="ocultarCampo('wrap-in-cpf', 'wrap-out-cpf')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir</button>
+              </div>
+              <input type="text" id="in-cpf" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg font-mono" value="012.576.671-81" oninput="atualizarPreview()">
+            </div>
+            <div id="wrap-in-motorista-fones">
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-gray-700 font-semibold">Telefone</label>
+                <button type="button" onclick="ocultarCampo('wrap-in-motorista-fones', 'wrap-out-motorista-fones')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir</button>
+              </div>
+              <input type="text" id="in-motorista-fones" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg" value="(63) 99289-3815" oninput="atualizarPreview()">
+            </div>
+          </div>
+          <div id="wrap-in-motorista-endereco">
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-gray-700 font-semibold">Endere&ccedil;o Completo</label>
+              <button type="button" onclick="ocultarCampo('wrap-in-motorista-endereco', 'wrap-out-motorista-endereco')" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-xmark"></i> Excluir campo</button>
+            </div>
+            <input type="text" id="in-motorista-endereco" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg" value="RUA 08, QDR 18, LT 14, SN, TROPICAL PALMAS, PORTO NACIONAL - TO" oninput="atualizarPreview()">
+          </div>
+        </div>
+
+        <!-- Dados dos Veiculos -->
+        <div id="bloco-veiculos" class="border-2 border-gray-200 rounded-xl p-3 sm:p-4 space-y-3 bg-gray-50">
+          <div class="flex justify-between items-center border-b pb-1.5">
+            <h3 class="font-bold text-green-900 uppercase text-xs sm:text-sm flex items-center gap-1.5">
+              <i class="fa-solid fa-truck"></i> Placas e ANTT
+            </h3>
+            <button type="button" onclick="alternarBloco('bloco-veiculos', 'row-out-veiculos')" class="text-red-500 hover:text-red-700 font-bold px-2 py-1 text-xs rounded border border-red-200 bg-white" title="Excluir/Ocultar bloco">
+              <i class="fa-solid fa-xmark"></i> Excluir Bloco
+            </button>
+          </div>
+          
+          <div class="grid grid-cols-3 gap-2 items-center font-bold text-gray-600 text-[10px] sm:text-xs uppercase mb-1">
+            <span>Placa / Tipo</span>
+            <span>Cidade / UF</span>
+            <span>ANTT</span>
+          </div>
+
+          <!-- Cavalo -->
+          <div id="wrap-v1" class="grid grid-cols-3 gap-1.5 sm:gap-2">
+            <input type="text" id="in-v1-placa" value="TVS-1A86" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg uppercase font-mono font-bold" placeholder="Cavalo" oninput="atualizarPreview()">
+            <input type="text" id="in-v1-cidade" value="MARITUBA/PA" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg uppercase" oninput="atualizarPreview()">
+            <div class="flex gap-1">
+              <input type="text" id="in-v1-antt" value="057475822" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg w-full" oninput="atualizarPreview()">
+              <button type="button" onclick="ocultarCampo('wrap-v1', 'row-out-v1')" class="text-red-500 hover:text-red-700 px-1"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+          </div>
+          <!-- Reboque 1 -->
+          <div id="wrap-v2" class="grid grid-cols-3 gap-1.5 sm:gap-2">
+            <input type="text" id="in-v2-placa" value="TVB-2H48" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg uppercase font-mono font-bold" placeholder="Reboque 1" oninput="atualizarPreview()">
+            <input type="text" id="in-v2-cidade" value="NOVO ACORDO/TO" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg uppercase" oninput="atualizarPreview()">
+            <div class="flex gap-1">
+              <input type="text" id="in-v2-antt" value="57475822" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg w-full" oninput="atualizarPreview()">
+              <button type="button" onclick="ocultarCampo('wrap-v2', 'row-out-v2')" class="text-red-500 hover:text-red-700 px-1"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+          </div>
+          <!-- Reboque 2 -->
+          <div id="wrap-v3" class="grid grid-cols-3 gap-1.5 sm:gap-2">
+            <input type="text" id="in-v3-placa" value="TVB-2H52" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg uppercase font-mono font-bold" placeholder="Reboque 2" oninput="atualizarPreview()">
+            <input type="text" id="in-v3-cidade" value="NOVO ACORDO/TO" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg uppercase" oninput="atualizarPreview()">
+            <div class="flex gap-1">
+              <input type="text" id="in-v3-antt" value="57475822" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg w-full" oninput="atualizarPreview()">
+              <button type="button" onclick="ocultarCampo('wrap-v3', 'row-out-v3')" class="text-red-500 hover:text-red-700 px-1"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+          </div>
+          <!-- Reboque 3 -->
+          <div id="wrap-v4" class="grid grid-cols-3 gap-1.5 sm:gap-2">
+            <input type="text" id="in-v4-placa" value="TVB-2H54" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg uppercase font-mono font-bold" placeholder="Reboque 3" oninput="atualizarPreview()">
+            <input type="text" id="in-v4-cidade" value="NOVO ACORDO/TO" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg uppercase" oninput="atualizarPreview()">
+            <div class="flex gap-1">
+              <input type="text" id="in-v4-antt" value="57475822" class="p-2 text-xs sm:text-base border border-gray-300 rounded-lg w-full" oninput="atualizarPreview()">
+              <button type="button" onclick="ocultarCampo('wrap-v4', 'row-out-v4')" class="text-red-500 hover:text-red-700 px-1"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Observacoes e Assinatura -->
+        <div id="bloco-obs" class="border-2 border-gray-200 rounded-xl p-3 sm:p-4 space-y-3 bg-gray-50">
+          <div class="flex justify-between items-center border-b pb-1.5">
+            <h3 class="font-bold text-green-900 uppercase text-xs sm:text-sm">Observa&ccedil;&otilde;es</h3>
+            <button type="button" onclick="alternarBloco('bloco-obs', 'row-out-obs')" class="text-red-500 hover:text-red-700 font-bold px-2 py-1 text-xs rounded border border-red-200 bg-white"><i class="fa-solid fa-xmark"></i> Excluir Bloco</button>
+          </div>
+          <div>
+            <label class="text-gray-700 font-semibold block mb-1">Observa&ccedil;&atilde;o</label>
+            <textarea id="in-obs" class="w-full p-2.5 text-sm sm:text-base border border-gray-300 rounded-lg h-20 font-medium" oninput="atualizarPreview()">FAZENDAS VALVERDE - NOVO ACORDO TO</textarea>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Lado Direito: Preview Modelo A4 Oficial Agrogrãos -->
+    <div class="lg:col-span-6 flex justify-center overflow-x-auto">
+      <div id="printable-area" class="a4-preview text-xs text-gray-900 flex flex-col justify-between">
+        <div>
+          <!-- Cabecalho Oficial -->
+          <div class="flex justify-between items-center border-b-2 border-gray-800 pb-3 mb-4">
+            <div class="flex items-center gap-3 sm:gap-4">
+              <!-- Logotipo Oficial Agrogrãos (Corretora) -->
+              <div id="container-logo" class="w-28 sm:w-36 h-16 sm:h-20 flex-shrink-0 flex items-center justify-center">
+                <svg viewBox="0 0 350 120" class="w-full h-full">
+                  <!-- Agro (Verde) -->
+                  <text x="5" y="65" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="62" font-style="italic" fill="#0f766e" letter-spacing="-2">Agro</text>
+                  <!-- grãos (Amarelo/Dourado) -->
+                  <text x="145" y="65" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="62" font-style="italic" fill="#f59e0b" letter-spacing="-2">gr&atilde;os</text>
+                  <!-- CORRETORA (Verde Escuro) -->
+                  <text x="175" y="100" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="22" fill="#0f766e" letter-spacing="3">CORRETORA</text>
+                </svg>
+              </div>
+
+              <div>
+                <h1 class="font-extrabold text-xs sm:text-base tracking-tight text-gray-900 uppercase">AGROGR&Atilde;OS CORRETORA</h1>
+                <p class="text-[10px] sm:text-[11px] text-gray-700 leading-tight">AV. DOS ESTUDANTES - APARECIDA DO RIO NEGRO / TO</p>
+                <p class="text-[10px] sm:text-[11px] text-gray-700 leading-tight">CEP: 77620-000</p>
+                <p class="text-[10px] sm:text-[11px] text-gray-700 leading-tight">Fone: (63) 99104-9193</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Titulo Ordem de Carregamento -->
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-base sm:text-xl font-bold uppercase tracking-wider text-gray-900 border-b-2 border-black pb-0.5">ORDEM DE CARREGAMENTO</h2>
+            <div class="text-right">
+              <span class="text-sm sm:text-lg font-bold text-gray-900">N&ordm;: <span id="out-numero" class="text-blue-900">02941</span></span>
+            </div>
+          </div>
+
+          <!-- Bloco Dados do Cliente -->
+          <div id="row-out-cliente" class="border border-gray-400 rounded p-2 sm:p-2.5 mb-3">
+            <div class="grid grid-cols-12 gap-x-2 gap-y-1">
+              <div class="col-span-12 font-bold text-gray-800 border-b border-gray-200 pb-1 mb-1">Dados do Cliente</div>
+              
+              <div id="wrap-out-fornecedor" class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">Cliente:</div>
+                <div id="out-fornecedor" class="col-span-9 sm:col-span-10 font-bold uppercase">BR3 AGRONEGOCIOS LTDA</div>
+              </div>
+
+              <div id="wrap-out-fornecedor-fones" class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">Fones:</div>
+                <div id="out-fornecedor-fones" class="col-span-9 sm:col-span-10">(77) 8114-4307</div>
+              </div>
+
+              <div class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">Endere&ccedil;o:</div>
+                <div class="col-span-5 sm:col-span-6"></div>
+                <div id="wrap-out-fornecedor-cep" class="col-span-4 grid grid-cols-4 contents">
+                  <div class="col-span-1 font-bold">CEP:</div>
+                  <div id="out-fornecedor-cep" class="col-span-3">77.320-000</div>
+                </div>
+              </div>
+
+              <div class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">Bairro:</div>
+                <div class="col-span-2 sm:col-span-3"></div>
+                <div id="wrap-out-fornecedor-cidade" class="col-span-5 grid grid-cols-5 contents">
+                  <div class="col-span-2 font-bold text-right">Cidade:</div>
+                  <div id="out-fornecedor-cidade" class="col-span-3">Taguatinga</div>
+                </div>
+                <div id="wrap-out-fornecedor-uf" class="contents">
+                  <div class="col-span-1 font-bold">UF:</div>
+                  <div id="out-fornecedor-uf" class="col-span-1">TO</div>
+                </div>
+              </div>
+
+              <div id="wrap-out-embarque" class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">Embarque:</div>
+                <div id="out-embarque" class="col-span-9 sm:col-span-10 font-semibold">CC: 0170/26 - FAZENDAS VALVERDE - NOVO ACORDO TO</div>
+              </div>
+
+              <div id="wrap-out-produto" class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">Produto:</div>
+                <div id="out-produto" class="col-span-9 sm:col-span-10 font-bold uppercase">MILHO</div>
+              </div>
+
+              <div id="wrap-out-peso" class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">Peso Estimado:</div>
+                <div id="out-peso" class="col-span-9 sm:col-span-10 font-bold">50.000</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bloco Dados do Motorista -->
+          <div id="row-out-motorista" class="border border-gray-400 rounded p-2 sm:p-2.5 mb-3">
+            <div class="grid grid-cols-12 gap-x-2 gap-y-1">
+              <div class="col-span-12 font-bold text-gray-800 border-b border-gray-200 pb-1 mb-1">Dados do Motorista</div>
+
+              <div id="wrap-out-motorista" class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">Motorista:</div>
+                <div id="out-motorista" class="col-span-9 sm:col-span-10 font-bold uppercase">MAXWELL DE OLIVEIRA AGUIAR</div>
+              </div>
+
+              <div id="wrap-out-cpf" class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">CPF:</div>
+                <div id="out-cpf" class="col-span-9 sm:col-span-10">012.576.671-81</div>
+              </div>
+
+              <div id="wrap-out-motorista-fones" class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">Fones:</div>
+                <div id="out-motorista-fones" class="col-span-9 sm:col-span-10">(63) 99289-3815</div>
+              </div>
+
+              <div id="wrap-out-motorista-endereco" class="col-span-12 grid grid-cols-12 gap-x-2">
+                <div class="col-span-3 sm:col-span-2 font-bold">Endere&ccedil;o:</div>
+                <div id="out-motorista-endereco" class="col-span-9 sm:col-span-10 uppercase">RUA 08, QDR 18, LT 14, SN, TROPICAL PALMAS, PORTO NACIONAL - TO</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bloco Dados do Veiculo (CORREÇÃO CIRÚRGICA DA TABELA) -->
+          <div id="row-out-veiculos" class="border border-gray-400 rounded p-2 sm:p-2.5 mb-3">
+            <div class="font-bold text-gray-800 border-b border-gray-200 pb-1 mb-2">Dados do Ve&iacute;culo</div>
+            
+            <table class="w-full text-xs border-collapse">
+              <tbody>
+                <tr id="row-out-v1" class="border-b border-gray-100">
+                  <td class="font-bold py-0.5" style="width: 25%;">Placa - Cavalo:</td>
+                  <td id="out-v1-placa" class="font-mono font-bold py-0.5" style="width: 15%;">TVS-1A86</td>
+                  <td class="font-bold text-right py-0.5" style="width: 18%;">Cidade/UF:</td>
+                  <td id="out-v1-cidade" class="py-0.5" style="width: 22%;">MARITUBA/PA</td>
+                  <td class="font-bold text-right py-0.5" style="width: 8%;">ANTT:</td>
+                  <td id="out-v1-antt" class="text-right py-0.5" style="width: 12%;">057475822</td>
+                </tr>
+                <tr id="row-out-v2" class="border-b border-gray-100">
+                  <td class="font-bold py-0.5">Placa - Reboque:</td>
+                  <td id="out-v2-placa" class="font-mono font-bold py-0.5">TVB-2H48</td>
+                  <td class="font-bold text-right py-0.5">Cidade/UF:</td>
+                  <td id="out-v2-cidade" class="py-0.5">NOVO ACORDO/TO</td>
+                  <td class="font-bold text-right py-0.5">ANTT:</td>
+                  <td id="out-v2-antt" class="text-right py-0.5">57475822</td>
+                </tr>
+                <tr id="row-out-v3" class="border-b border-gray-100">
+                  <td class="font-bold py-0.5">Placa - Reboque:</td>
+                  <td id="out-v3-placa" class="font-mono font-bold py-0.5">TVB-2H52</td>
+                  <td class="font-bold text-right py-0.5">Cidade/UF:</td>
+                  <td id="out-v3-cidade" class="py-0.5">NOVO ACORDO/TO</td>
+                  <td class="font-bold text-right py-0.5">ANTT:</td>
+                  <td id="out-v3-antt" class="text-right py-0.5">57475822</td>
+                </tr>
+                <tr id="row-out-v4">
+                  <td class="font-bold py-0.5">Placa - Reboque:</td>
+                  <td id="out-v4-placa" class="font-mono font-bold py-0.5">TVB-2H54</td>
+                  <td class="font-bold text-right py-0.5">Cidade/UF:</td>
+                  <td id="out-v4-cidade" class="py-0.5">NOVO ACORDO/TO</td>
+                  <td class="font-bold text-right py-0.5">ANTT:</td>
+                  <td id="out-v4-antt" class="text-right py-0.5">57475822</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Observacoes -->
+          <div id="row-out-obs" class="border border-gray-400 rounded p-2 sm:p-2.5 mb-6">
+            <div class="font-bold text-gray-800 mb-1">Obs.</div>
+            <div class="grid grid-cols-12 gap-2">
+              <div class="col-span-3 sm:col-span-2 font-bold">Observa&ccedil;&atilde;o:</div>
+              <div id="out-obs" class="col-span-9 sm:col-span-10 uppercase font-semibold">FAZENDAS VALVERDE - NOVO ACORDO TO</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rodape e Assinaturas -->
+        <div class="mt-8 space-y-12">
+          <div id="out-data" class="text-xs font-semibold">PALMAS/TO: quarta-feira, 14 de outubro de 2026</div>
+
+          <div class="grid grid-cols-2 gap-4 sm:gap-8 pt-6">
+            <div class="text-center border-t border-gray-400 pt-1">
+              <div id="out-assinatura-motorista" class="font-bold text-[10px] sm:text-xs uppercase">MAXWELL DE OLIVEIRA AGUIAR</div>
+            </div>
+            <div class="text-center border-t border-gray-400 pt-1">
+              <div class="font-bold text-[10px] sm:text-xs uppercase">WENEDIS ADRIANO</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Configura leitor PDF.js
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    // Carrega dados salvos no navegador ao iniciar
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLogo = localStorage.getItem('agrogrãos_logo');
+      if (savedLogo) {
+        document.getElementById('container-logo').innerHTML = '<img src="' + savedLogo + '" class="w-full h-full object-contain">';
+      }
+    });
+
+    // Atualiza preview em tempo real
+    function atualizarPreview() {
+      const mapeamento = {
+        'in-numero': 'out-numero',
+        'in-data': 'out-data',
+        'in-fornecedor': 'out-fornecedor',
+        'in-fornecedor-fones': 'out-fornecedor-fones',
+        'in-fornecedor-cep': 'out-fornecedor-cep',
+        'in-fornecedor-cidade': 'out-fornecedor-cidade',
+        'in-fornecedor-uf': 'out-fornecedor-uf',
+        'in-embarque': 'out-embarque',
+        'in-produto': 'out-produto',
+        'in-peso': 'out-peso',
+        'in-motorista': 'out-motorista',
+        'in-cpf': 'out-cpf',
+        'in-motorista-fones': 'out-motorista-fones',
+        'in-motorista-endereco': 'out-motorista-endereco',
+        'in-v1-placa': 'out-v1-placa',
+        'in-v1-cidade': 'out-v1-cidade',
+        'in-v1-antt': 'out-v1-antt',
+        'in-v2-placa': 'out-v2-placa',
+        'in-v2-cidade': 'out-v2-cidade',
+        'in-v2-antt': 'out-v2-antt',
+        'in-v3-placa': 'out-v3-placa',
+        'in-v3-cidade': 'out-v3-cidade',
+        'in-v3-antt': 'out-v3-antt',
+        'in-v4-placa': 'out-v4-placa',
+        'in-v4-cidade': 'out-v4-cidade',
+        'in-v4-antt': 'out-v4-antt',
+        'in-obs': 'out-obs'
+      };
+
+      for (let inputId in mapeamento) {
+        let inputElem = document.getElementById(inputId);
+        let outElem = document.getElementById(mapeamento[inputId]);
+        if (inputElem && outElem) {
+          outElem.innerText = inputElem.value;
+        }
+      }
+
+      document.getElementById('out-assinatura-motorista').innerText = document.getElementById('in-motorista').value;
+    }
+
+    // Ocultar campo individual com X
+    function ocultarCampo(wrapInputId, wrapOutId) {
+      document.getElementById(wrapInputId).classList.add('campo-oculto');
+      document.getElementById(wrapOutId).classList.add('campo-oculto');
+    }
+
+    // Ocultar bloco inteiro
+    function alternarBloco(blocoInputId, blocoOutId) {
+      document.getElementById(blocoInputId).classList.add('campo-oculto');
+      document.getElementById(blocoOutId).classList.add('campo-oculto');
+    }
+
+    // Gerenciar lista suspensa de cereais
+    function toggleListaCereais(event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById('dropdown-cereais');
+      dropdown.classList.toggle('hidden');
+    }
+
+    function selecionarCereal(valor) {
+      document.getElementById('in-produto').value = valor;
+      document.getElementById('dropdown-cereais').classList.add('hidden');
+      atualizarPreview();
+    }
+
+    // Fecha a lista se clicar fora
+    window.addEventListener('click', function() {
+      const dropdown = document.getElementById('dropdown-cereais');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+      }
+    });
+
+    // Carregar e salvar nova logo no localStorage
+    function carregarNovaLogo(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const base64Img = e.target.result;
+          document.getElementById('container-logo').innerHTML = '<img src="' + base64Img + '" class="w-full h-full object-contain">';
+          localStorage.setItem('agrogrãos_logo', base64Img);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // Leitura automatica do PDF carregado
+    async function processarPDF(input) {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+      const fileReader = new FileReader();
+
+      fileReader.onload = async function() {
+        const typedarray = new Uint8Array(this.result);
+        try {
+          const pdf = await pdfjsLib.getDocument(typedarray).promise;
+          let textCompleto = '';
+
+          for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items.map(item => item.str).join(' ');
+            textCompleto += pageText + ' ';
+          }
+
+          extrairCamposDoTexto(textCompleto);
+          alert('PDF lido e campos preenchidos automaticamente com sucesso!');
+        } catch (err) {
+          alert('Erro ao processar o PDF. Verifique se o arquivo e valido.');
+        }
+      };
+
+      fileReader.readAsArrayBuffer(file);
+    }
+
+    // Procura padroes no texto do PDF recebido para preencher os campos
+    function extrairCamposDoTexto(texto) {
+      let matchNum = texto.match(/N[o&ordm;]?:?\s*(\d+)/i) || texto.match(/ORDEM DE CARREGAMENTO\s*(\d+)/i);
+      if (matchNum) document.getElementById('in-numero').value = matchNum[1];
+
+      let matchCPF = texto.match(/\d{3}\.\d{3}\.\d{3}-\d{2}/);
+      if (matchCPF) document.getElementById('in-cpf').value = matchCPF[0];
+
+      let placas = texto.match(/[A-Z]{3}-?\d[A-Z0-9]\d{2}/g);
+      if (placas && placas.length > 0) {
+        if (placas[0]) document.getElementById('in-v1-placa').value = placas[0];
+        if (placas[1]) document.getElementById('in-v2-placa').value = placas[1];
+        if (placas[2]) document.getElementById('in-v3-placa').value = placas[2];
+        if (placas[3]) document.getElementById('in-v4-placa').value = placas[3];
+      }
+
+      let matchProduto = texto.match(/(MILHO|SOJA|SORGO|MILHETO|ARROZ)/i);
+      if (matchProduto) document.getElementById('in-produto').value = matchProduto[0].toUpperCase();
+
+      atualizarPreview();
+    }
+
+    // Inicializa preview
+    atualizarPreview();
+  </script>
+</body>
+</html>
