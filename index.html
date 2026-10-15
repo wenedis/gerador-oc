@@ -1,87 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador OC</title>
-    <link rel="manifest" href="manifest.json">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-        h2 {
-            margin-bottom: 20px;
-            color: #333;
-            text-align: center;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agrogrãos Corretora - Gerador de Ordem de Carregamento</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @media print {
+      body * { visibility: hidden; }
+      #printable-area, #printable-area * { visibility: visible; }
+      #printable-area { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 15px; box-shadow: none !important; border: none !important; }
+      .no-print { display: none !important; }
+    }
+    .a4-preview { width: 100%; max-width: 210mm; min-height: 297mm; background: white; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.15); padding: 10mm 10mm; font-family: 'Arial', sans-serif; overflow-x: auto; }
+    @media (min-width: 768px) {
+      .a4-preview { padding: 15mm 15mm; }
+    }
+    input, textarea, select { transition: all 0.2s ease; }
+    input:focus, textarea:focus, select:focus { outline: 2px solid #15803d; border-color: transparent; }
+    .campo-oculto { display: none !important; }
+  </style>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen text-gray-800 flex flex-col">
 
-    <div class="container">
-        <h2>Gerador OC</h2>
-        <label for="cliente">Nome do Cliente:</label>
-        <input type="text" id="cliente" placeholder="Digite o nome do cliente">
-
-        <label for="valor">Valor (R$):</label>
-        <input type="number" id="valor" placeholder="0,00">
-
-        <button onclick="gerarOC()">Gerar</button>
+  <!-- Cabecalho do Sistema -->
+  <header class="bg-gradient-to-r from-green-900 via-green-800 to-green-950 text-white shadow-lg no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div class="flex items-center space-x-3 text-center sm:text-left">
+        <div class="bg-amber-400 p-2 sm:p-2.5 rounded-xl text-green-900 font-bold text-xl sm:text-2xl flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0">
+          <i class="fa-solid fa-wheat-awn"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-lg sm:text-2xl tracking-wide text-amber-300">AGROGRÃOS CORRETORA</h1>
+          <p class="text-xs sm:text-sm text-green-200">Gerador &amp; Leitor de Ordens de Carregamento</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center">
+        <button onclick="document.getElementById('pdf-upload').click()" class="bg-amber-500 hover:bg-amber-400 text-green-950 font-bold px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow transition flex items-center gap-2 text-xs sm:text-base flex-1 sm:flex-none justify-center">
+          <i class="fa-solid fa-file-pdf"></i> Ler PDF
+        </button>
+        <input type="file" id="pdf-upload" accept="application/pdf" class="hidden" onchange="processarPDF(this)">
+        <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-white font-bold px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl shadow transition flex items-center gap-2 text-xs sm:text-base flex-1 sm:flex-none justify-center">
+          <i class="fa-solid fa-print"></i> Gerar PDF
+        </button>
+      </div>
     </div>
+  </header>
 
-    <script>
-        function gerarOC() {
-            const cliente = document.getElementById('cliente').value;
-            const valor = document.getElementById('valor').value;
-            if (!cliente || !valor) {
-                alert('Por favor, preencha todos os campos!');
-                return;
-            }
-            alert(`OC gerada com sucesso para ${cliente} no valor de R$ ${valor}!`);
-        }
-    </script>
+  <!-- Conteudo Principal -->
+  <main class="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-6 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
 
-</body>
-</html>
+    <!-- Lado Esquerdo: Formulario de Edicao -->
+    <div class="lg:col-span-6 space-y-4 sm:space-y-5 no-print bg-white p-4 sm:p-6 rounded-2xl shadow-md border border-gray-200 h-fit">
+      <div class="border-b pb-3 flex justify-between items-center">
+        <h2 class="text-lg sm:text-xl font-bold text-green-900 flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square"></i> Editar Informações
+        </h2>
+        <span class="text-xs sm:text-sm text-gray-500 font-medium">Altere o que precisar</span>
+      </div>
+
+      <!-- Importacao de PDF -->
+      <div class="bg-green-50 border border-green-300 p-3 sm:p-4 rounded-xl text-xs sm:text-sm text-green-900 flex items-center justify-between">
+        <div>
+          <strong class="block font-bold text-sm sm:text-base">Instrução de Importação:</strong>
+          <span>Envie o PDF recebido para preenchimento automático.</span>
+        </div>
+        <i class="fa-solid fa-upload text-green-600 text-xl sm:text-2xl"></i>
+      </div>
+
+      <!-- Alterar Imagem da Logo Opcao -->
+      <div class="bg-amber-50 border border-amber-300 p-3 rounded-xl text-xs text-amber-900 flex items-center justify-between">
+        <div>
+          <strong class="block font-bold">Logo do Documento:</strong>
+          <span>Salva automaticamente no navegador.</span>
+        </div>
+        <button onclick="document.getElementById('logo-upload').click()" class="bg-amber-6
