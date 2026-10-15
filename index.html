@@ -19,12 +19,28 @@
     @media print {
       body * { visibility: hidden; }
       #printable-area, #printable-area * { visibility: visible; }
-      #printable-area { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 15px; box-shadow: none !important; border: none !important; }
+      #printable-area { 
+        position: absolute; 
+        left: 0; 
+        top: 0; 
+        width: 100%; 
+        margin: 0; 
+        padding: 8mm 10mm; 
+        box-shadow: none !important; 
+        border: none !important; 
+      }
       .no-print { display: none !important; }
     }
-    .a4-preview { width: 100%; max-width: 210mm; min-height: 297mm; background: white; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.15); padding: 10mm 10mm; font-family: 'Arial', sans-serif; overflow-x: auto; }
-    @media (min-width: 768px) {
-      .a4-preview { padding: 15mm 15mm; }
+    .a4-preview { 
+      width: 100%; 
+      max-width: 210mm; 
+      min-height: 297mm; 
+      background: white; 
+      margin: 0 auto; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
+      padding: 8mm 10mm; 
+      font-family: 'Arial', sans-serif; 
+      overflow-x: auto; 
     }
     input, textarea, select { transition: all 0.2s ease; }
     input:focus, textarea:focus, select:focus { outline: 2px solid #15803d; border-color: transparent; }
@@ -303,10 +319,10 @@
       <div id="printable-area" class="a4-preview text-xs text-gray-900 flex flex-col justify-between">
         <div>
           <!-- Cabecalho Oficial -->
-          <div class="flex justify-between items-center border-b-2 border-gray-800 pb-3 mb-4">
+          <div class="flex justify-between items-center border-b-2 border-gray-800 pb-2 mb-3">
             <div class="flex items-center gap-3 sm:gap-4">
               <!-- Logotipo Oficial Agrogrãos (Corretora) -->
-              <div id="container-logo" class="w-28 sm:w-36 h-16 sm:h-20 flex-shrink-0 flex items-center justify-center">
+              <div id="container-logo" class="w-28 sm:w-32 h-14 sm:h-16 flex-shrink-0 flex items-center justify-center">
                 <svg viewBox="0 0 350 120" class="w-full h-full">
                   <!-- Agro (Verde) -->
                   <text x="5" y="65" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="62" font-style="italic" fill="#0f766e" letter-spacing="-2">Agro</text>
@@ -318,26 +334,26 @@
               </div>
 
               <div>
-                <h1 class="font-extrabold text-xs sm:text-base tracking-tight text-gray-900 uppercase">AGROGR&Atilde;OS CORRETORA</h1>
-                <p class="text-[10px] sm:text-[11px] text-gray-700 leading-tight">AV. DOS ESTUDANTES - APARECIDA DO RIO NEGRO / TO</p>
-                <p class="text-[10px] sm:text-[11px] text-gray-700 leading-tight">CEP: 77620-000</p>
-                <p class="text-[10px] sm:text-[11px] text-gray-700 leading-tight">Fone: (63) 99104-9193</p>
+                <h1 class="font-extrabold text-xs sm:text-sm tracking-tight text-gray-900 uppercase">AGROGR&Atilde;OS CORRETORA</h1>
+                <p class="text-[10px] text-gray-700 leading-tight">AV. DOS ESTUDANTES - APARECIDA DO RIO NEGRO / TO</p>
+                <p class="text-[10px] text-gray-700 leading-tight">CEP: 77620-000</p>
+                <p class="text-[10px] text-gray-700 leading-tight">Fone: (63) 99104-9193</p>
               </div>
             </div>
           </div>
 
           <!-- Titulo Ordem de Carregamento -->
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-base sm:text-xl font-bold uppercase tracking-wider text-gray-900 border-b-2 border-black pb-0.5">ORDEM DE CARREGAMENTO</h2>
+          <div class="flex justify-between items-center mb-3">
+            <h2 class="text-base sm:text-lg font-bold uppercase tracking-wider text-gray-900 border-b-2 border-black pb-0.5">ORDEM DE CARREGAMENTO</h2>
             <div class="text-right">
-              <span class="text-sm sm:text-lg font-bold text-gray-900">N&ordm;: <span id="out-numero" class="text-blue-900">02941</span></span>
+              <span class="text-sm sm:text-base font-bold text-gray-900">N&ordm;: <span id="out-numero" class="text-blue-900">02941</span></span>
             </div>
           </div>
 
           <!-- Bloco Dados do Cliente -->
-          <div id="row-out-cliente" class="border border-gray-400 rounded p-2 sm:p-2.5 mb-3">
-            <div class="grid grid-cols-12 gap-x-2 gap-y-1">
-              <div class="col-span-12 font-bold text-gray-800 border-b border-gray-200 pb-1 mb-1">Dados do Cliente</div>
+          <div id="row-out-cliente" class="border border-gray-400 rounded p-2 mb-2">
+            <div class="grid grid-cols-12 gap-x-2 gap-y-1 text-xs">
+              <div class="col-span-12 font-bold text-gray-800 border-b border-gray-200 pb-0.5 mb-1">Dados do Cliente</div>
               
               <div id="wrap-out-fornecedor" class="col-span-12 grid grid-cols-12 gap-x-2">
                 <div class="col-span-3 sm:col-span-2 font-bold">Cliente:</div>
@@ -389,9 +405,9 @@
           </div>
 
           <!-- Bloco Dados do Motorista -->
-          <div id="row-out-motorista" class="border border-gray-400 rounded p-2 sm:p-2.5 mb-3">
-            <div class="grid grid-cols-12 gap-x-2 gap-y-1">
-              <div class="col-span-12 font-bold text-gray-800 border-b border-gray-200 pb-1 mb-1">Dados do Motorista</div>
+          <div id="row-out-motorista" class="border border-gray-400 rounded p-2 mb-2">
+            <div class="grid grid-cols-12 gap-x-2 gap-y-1 text-xs">
+              <div class="col-span-12 font-bold text-gray-800 border-b border-gray-200 pb-0.5 mb-1">Dados do Motorista</div>
 
               <div id="wrap-out-motorista" class="col-span-12 grid grid-cols-12 gap-x-2">
                 <div class="col-span-3 sm:col-span-2 font-bold">Motorista:</div>
@@ -415,9 +431,9 @@
             </div>
           </div>
 
-          <!-- Bloco Dados do Veiculo (CORREÇÃO CIRÚRGICA DA TABELA) -->
-          <div id="row-out-veiculos" class="border border-gray-400 rounded p-2 sm:p-2.5 mb-3">
-            <div class="font-bold text-gray-800 border-b border-gray-200 pb-1 mb-2">Dados do Ve&iacute;culo</div>
+          <!-- Bloco Dados do Veiculo (AJUSTE DA TABELA) -->
+          <div id="row-out-veiculos" class="border border-gray-400 rounded p-2 mb-2">
+            <div class="font-bold text-gray-800 border-b border-gray-200 pb-0.5 mb-1 text-xs">Dados do Ve&iacute;culo</div>
             
             <table class="w-full text-xs border-collapse">
               <tbody>
@@ -458,20 +474,20 @@
           </div>
 
           <!-- Observacoes -->
-          <div id="row-out-obs" class="border border-gray-400 rounded p-2 sm:p-2.5 mb-6">
-            <div class="font-bold text-gray-800 mb-1">Obs.</div>
-            <div class="grid grid-cols-12 gap-2">
+          <div id="row-out-obs" class="border border-gray-400 rounded p-2 mb-2">
+            <div class="font-bold text-gray-800 mb-0.5 text-xs">Obs.</div>
+            <div class="grid grid-cols-12 gap-2 text-xs">
               <div class="col-span-3 sm:col-span-2 font-bold">Observa&ccedil;&atilde;o:</div>
               <div id="out-obs" class="col-span-9 sm:col-span-10 uppercase font-semibold">FAZENDAS VALVERDE - NOVO ACORDO TO</div>
             </div>
           </div>
         </div>
 
-        <!-- Rodape e Assinaturas -->
-        <div class="mt-8 space-y-12">
+        <!-- Rodape e Assinaturas (Espaçamento otimizado para folha única) -->
+        <div class="mt-4 space-y-6">
           <div id="out-data" class="text-xs font-semibold">PALMAS/TO: quarta-feira, 14 de outubro de 2026</div>
 
-          <div class="grid grid-cols-2 gap-4 sm:gap-8 pt-6">
+          <div class="grid grid-cols-2 gap-4 sm:gap-8 pt-4">
             <div class="text-center border-t border-gray-400 pt-1">
               <div id="out-assinatura-motorista" class="font-bold text-[10px] sm:text-xs uppercase">MAXWELL DE OLIVEIRA AGUIAR</div>
             </div>
