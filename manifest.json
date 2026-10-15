@@ -1,8 +1,15 @@
 {
-  "name": "Gerador OC",
-  "short_name": "GeradorOC",
-  "start_url": "index.html",
+  "name": "Agrogrãos Corretora",
+  "short_name": "Agrogrãos",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#007BFF"
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    }
+  ]
 }
